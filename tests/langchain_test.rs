@@ -1,8 +1,10 @@
 #[cfg_attr(test, cfg(feature = "langchain_test"))]
 mod langchain_test {
+    use langchain_rust::tools::Tool;
+    use serde_json::json;
     use dkn_compute::compute::search::vectorstore::Embeddings;
     use dkn_compute::compute::search::local_llm::LocalLLM;
-    use dkn_compute::compute::search::tools::scraper::scrape_website;
+    use dkn_compute::compute::search::tools::scraper::Scraper;
     use dkn_compute::compute::search::tools::search_ddg::DDGSearcher;
 
 
@@ -24,10 +26,9 @@ mod langchain_test {
 
     #[tokio::test]
     async fn test_scraping_tool(){
-        let sentences = scrape_website("http://example.com").await.unwrap();
-        for sentence in sentences {
-            println!("{}", sentence);
-        }
+        let scraper = Scraper {};
+        let sentences = scraper.run(json!({"website":"http://example.com"})).await.unwrap();
+        println!("{}", sentences);
 
     }
 

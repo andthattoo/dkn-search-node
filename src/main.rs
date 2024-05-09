@@ -58,8 +58,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let ddg_searcher = DDGSearcher::new();
         tracker.spawn(search_worker(
             node.clone(),
-            (Arc::new(scraper_tool), Arc::new(stock_data), Arc::new(ddg_searcher)),
             "search",
+            (Arc::new(scraper_tool), Arc::new(stock_data), Arc::new(ddg_searcher)),
             tokio::time::Duration::from_millis(1000),
         ));
     }

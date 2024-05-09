@@ -1,7 +1,6 @@
 pub mod scraper;
 pub mod finance;
 pub mod search_ddg;
-pub mod search_google;
 
 
 pub use self::finance::StockScraper;

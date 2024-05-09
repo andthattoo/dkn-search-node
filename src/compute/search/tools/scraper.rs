@@ -34,7 +34,7 @@ impl Tool for Scraper {
         })
     }
 
-    async fn run(&self, input: Value) -> Result<Vec<String>, Box<dyn Error>> {
+    async fn run(&self, input: Value) -> Result<String, Box<dyn Error>> {
         let website = input["website"].as_str().ok_or("Website URL is required")?;
         let browserless_token = env::var("BROWSERLESS_TOKEN").expect("BROWSERLESS_TOKEN must be set");
         let url = format!("http://0.0.0.0:3000/content?token={}", browserless_token);
@@ -62,6 +62,7 @@ impl Tool for Scraper {
         let splitter = TextSplitter::new(1000);
         let chunks = splitter.chunks(&body);
         let sentences: Vec<String> = chunks.map(|s| s.to_string()).collect();
+        let sentences = sentences.join("\n \n");
         Ok(sentences)
     }
 }
