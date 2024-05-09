@@ -11,6 +11,14 @@ use std::sync::Arc;
 #[cfg(feature = "synthesis")]
 use dkn_compute::workers::synthesis::*;
 
+#[cfg(feature = "search")]
+use dkn_compute::workers::search::*;
+
+#[cfg(feature = "search")]
+use dkn_compute::compute::search::tools::{StockScraper, Scraper, DDGSearcher};
+
+
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::builder()
@@ -42,6 +50,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "synthesis",
         tokio::time::Duration::from_millis(1000),
     ));
+
+    #[cfg(feature = "search")]
+    {
+        let scraper_tool = Scraper {};
+        let stock_data = StockScraper::new();
+        let ddg_searcher = DDGSearcher::new();
+        tracker.spawn(search_worker(
+            node.clone(),
+            (Arc::new(scraper_tool), Arc::new(stock_data), Arc::new(ddg_searcher)),
+            "search",
+            tokio::time::Duration::from_millis(1000),
+        ));
+    }
+
 
     tracker.close(); // close tracker after spawning everything
 

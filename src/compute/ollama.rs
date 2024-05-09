@@ -7,9 +7,9 @@ use ollama_rs::{
 };
 use tokio_util::sync::CancellationToken;
 
-pub const DEFAULT_DKN_OLLAMA_HOST: &str = "http://127.0.0.1";
-pub const DEFAULT_DKN_OLLAMA_PORT: u16 = 11434;
-pub const DEFAULT_DKN_OLLAMA_MODEL: &str = "orca-mini";
+use crate::compute::constants::{
+    DEFAULT_DKN_OLLAMA_HOST, DEFAULT_DKN_OLLAMA_MODEL, DEFAULT_DKN_OLLAMA_PORT,
+};
 
 /// A wrapper for the Ollama API.
 #[derive(Debug, Clone)]
